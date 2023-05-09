@@ -24,4 +24,4 @@ export PYTHONUNBUFFERED=TRUE
 
 cd ../src
 
-srun python main.py --exp_config ../scripts/ae_mse.yaml
+srun python pretrain.py --exp_config ../scripts/ae_mse.yaml

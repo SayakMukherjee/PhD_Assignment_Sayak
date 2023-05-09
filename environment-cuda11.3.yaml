@@ -1,4 +1,4 @@
-name: test
+name: phd_assignment
 channels:
   - pytorch
   - conda-forge
@@ -11,11 +11,5 @@ dependencies:
   - pytorch-lightning=1.7.7
   - torchvision=0.13.1
   - wandb=0.13.4
-  - matplotlib
-  - seaborn
   - numpy
-  - pandas
-  - tqdm
   - click
-  - scipy
-  - scikit-learn

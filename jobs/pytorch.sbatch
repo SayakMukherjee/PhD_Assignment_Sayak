@@ -24,4 +24,4 @@ export PYTHONUNBUFFERED=TRUE
 
 cd ../src
 
-srun python main.py --exp_config ../scripts/config_file.yaml
+srun python pretrain.py --exp_config ../scripts/config_file.yaml

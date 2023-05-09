@@ -1,0 +1,39 @@
+JobId=8484809 JobName=ae_pse.sbatch
+   UserId=smukherjee1(518820) GroupId=domain users(100513) MCS_label=N/A
+   Priority=25338491 Nice=0 Account=ewi-insy-prb-visionlab QOS=short
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   DerivedExitCode=0:0
+   RunTime=00:00:01 TimeLimit=04:00:00 TimeMin=N/A
+   SubmitTime=2023-05-09T21:21:07 EligibleTime=2023-05-09T21:21:07
+   AccrueTime=2023-05-09T21:21:07
+   StartTime=2023-05-09T21:26:36 EndTime=2023-05-10T01:26:36 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2023-05-09T21:26:36 Scheduler=Backfill
+   Partition=general AllocNode:Sid=login1:19408
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=insy14
+   BatchHost=insy14
+   NumNodes=1 NumCPUs=4 NumTasks=1 CPUs/Task=4 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=4,mem=8000M,node=1,billing=34,gres/gpu=2
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   JOB_GRES=gpu:pascal:2
+     Nodes=insy14 CPU_IDs=2-3,8-9 Mem=8000 GRES=gpu:pascal:2(IDX:2,7)
+   MinCPUsNode=4 MinMemoryNode=8000M MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/tudelft.net/staff-umbrella/StudentsCVlab/smukherjee/PhD_Assignment_Sayak/jobs/ae_pse.sbatch
+   WorkDir=/tudelft.net/staff-umbrella/StudentsCVlab/smukherjee/PhD_Assignment_Sayak/jobs
+   StdErr=/tudelft.net/staff-umbrella/StudentsCVlab/smukherjee/PhD_Assignment_Sayak/jobs/ae_pse.out
+   StdIn=/dev/null
+   StdOut=/tudelft.net/staff-umbrella/StudentsCVlab/smukherjee/PhD_Assignment_Sayak/jobs/ae_pse.out
+   Power=
+   TresPerNode=gres:gpu:2
+   MailUser=smukherjee1 MailType=END
+   
+
+Traceback (most recent call last):
+  File "/tudelft.net/staff-umbrella/StudentsCVlab/smukherjee/PhD_Assignment_Sayak/src/pretrain.py", line 4, in <module>
+    import pytorch_lightning as pl
+ModuleNotFoundError: No module named 'pytorch_lightning'
+srun: error: insy14: task 0: Exited with exit code 1
+srun: launch/slurm: _step_signal: Terminating StepId=8484809.0

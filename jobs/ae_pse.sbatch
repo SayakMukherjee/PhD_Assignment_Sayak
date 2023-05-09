@@ -17,11 +17,11 @@ module use /opt/insy/modulefiles
 module load cuda/11.3
 module load miniconda/3.9
 
-conda activate /tudelft.net/staff-umbrella/StudentsCVlab/smukherjee/envs/mscthesis
+conda activate test
 
 export NCCL_P2P_DISABLE=1
 export PYTHONUNBUFFERED=TRUE
 
 cd ../src
 
-srun python main.py --exp_config ../scripts/ae_pse.yaml
+srun python pretrain.py --exp_config ../scripts/ae_pse.yaml
