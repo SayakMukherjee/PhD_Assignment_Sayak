@@ -7,7 +7,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=8000
-#SBATCH --gres=gpu:2
+#SBATCH --gres=gpu
 #SBATCH --mail-type=END
 
 /usr/bin/scontrol show job -d "$SLURM_JOB_ID"
@@ -17,7 +17,7 @@ module use /opt/insy/modulefiles
 module load cuda/11.3
 module load miniconda/3.9
 
-conda activate /tudelft.net/staff-umbrella/StudentsCVlab/smukherjee/envs/mscthesis
+conda activate /tudelft.net/staff-umbrella/StudentsCVlab/smukherjee/envs/phd_assignment
 
 export NCCL_P2P_DISABLE=1
 export PYTHONUNBUFFERED=TRUE

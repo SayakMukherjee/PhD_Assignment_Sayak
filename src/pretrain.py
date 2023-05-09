@@ -2,7 +2,6 @@ import os
 import click
 import torch
 import pytorch_lightning as pl
-import matplotlib.pyplot as plt
 
 from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning.callbacks import ModelCheckpoint
@@ -78,7 +77,7 @@ def main(exp_config):
         max_epochs=config.train.epochs,
         logger=wandb_logger,
         # Use DDP training by default, even for CPU training
-        strategy="ddp_find_unused_parameters_false",
+        strategy="ddp",
         gpus=torch.cuda.device_count(),
         callbacks=[checkpoint_callback]
     )
