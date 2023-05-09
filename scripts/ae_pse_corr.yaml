@@ -1,0 +1,25 @@
+seed: 12345
+optimize:
+  optimizer: Adam
+  lr: 0.001
+train:
+  method: Autoencoder
+  model: LeNet_Autoencoder
+  epochs: 100
+  batch_size: 64
+  loss: PSE
+  use_reg: False
+  save_dir: ../models
+dataset:
+  name: STL10
+  channels: 3
+  is_corrupted: True
+  root: ../data
+  num_workers: 4
+  use_collate: False
+wandb:
+  log: True
+  dir: ../wandb
+  experiment_name: 'ae_pse_corr'
+  entity: 'sayak_delft'
+  project: 'phd_assign'
