@@ -1,3 +1,11 @@
+#----------------------------------------------------------------------------
+# Created By  : Sayak Mukherjee
+# Created Date: 09-May-2023
+#
+# ---------------------------------------------------------------------------
+# Contains the main driver code for fine-tuning
+# ---------------------------------------------------------------------------
+
 import os
 import click
 import torch
@@ -52,18 +60,22 @@ def main(exp_config):
     dataset = get_dataset(config.dataset.name)(config=config)
 
     train_dataset_loader = dataset.get_train_loader()
-    test_dataset_loader = dataset.get_test_loader
+    test_dataset_loader = dataset.get_test_loader()
 
     # Create model
     model = get_model(config.train.model)(config)
+    model_dict = model.state_dict()
 
     # Initialize from pre-training
-    import_path = Path('../pretrained_models').joinpath(config.wandb.experiment_name + '.pth')
-    loaded_net_dict = torch.load(import_path)
+    import_path = Path('../pretrained_models').joinpath(config.wandb.experiment_name + '.ckpt')
+    loaded_net_dict = torch.load(import_path, map_location=torch.device(device))
     loaded_net_dict = loaded_net_dict['net_dict']
 
-    new_state_dict = {k: v for k,v in loaded_net_dict.items() if k in model.state_dict()}
-    model.load_state_dict(new_state_dict)
+    new_state_dict = {k: v for k,v in loaded_net_dict.items() if k in model_dict}
+
+    model_dict.update(new_state_dict)
+
+    model.load_state_dict(model_dict)
 
     # Finetuning method
     method = get_methods(config.train.method)(config, model)

@@ -1,3 +1,11 @@
+#----------------------------------------------------------------------------
+# Created By  : Sayak Mukherjee
+# Created Date: 09-May-2023
+#
+# ---------------------------------------------------------------------------
+# Contains the main driver code for pretraining
+# ---------------------------------------------------------------------------
+
 import os
 import click
 import torch
@@ -14,7 +22,9 @@ from optim import get_methods
 @click.command()
 @click.option('--exp_config', type=click.Path(exists=True), default=None,
               help='Configuration file for the experiment (default: None).')
-def main(exp_config):
+@click.option('--chkpt_path', type=click.Path(exists=True), default=None,
+              help='Configuration file for the experiment (default: None).')
+def main(exp_config, chkpt_path):
 
     # Load defaults and overwrite by command-line arguments
     config = OmegaConf.load(Path(exp_config))
@@ -52,15 +62,6 @@ def main(exp_config):
     dataset = get_dataset(config.dataset.name)(config=config)
 
     pretrain_dataset_loader = dataset.get_pretrain_loader()
-    # for idx, inputs in enumerate(pretrain_dataset_loader):
-    #     images = inputs[1]
-    #     image = images[0]
-    #     plt.imshow(image.permute(1, 2, 0))
-    #     plt.savefig('image_test.png')
-    #     break
-
-
-    test_dataset_loader = dataset.get_test_loader
 
     # Create model
     model = get_model(config.train.model)(config)
@@ -83,11 +84,13 @@ def main(exp_config):
     )
 
     # Train + validate (if validation dataset is implemented)
-    trainer.fit(method, pretrain_dataset_loader)
+    if chkpt_path is not None:
+        trainer.fit(model=method, train_dataloaders=pretrain_dataset_loader, ckpt_path=chkpt_path)
+    else:
+        trainer.fit(model=method, train_dataloaders=pretrain_dataset_loader)
 
-    # Test (if test dataset is implemented)
-    if test_dataset_loader is not None:
-        trainer.test(method, test_dataset_loader)
+    if not Path.exists(Path('../pretrained_models')):
+        Path.mkdir(Path('../pretrained_models'))
 
     export_path = Path('../pretrained_models').joinpath(config.wandb.experiment_name + '.pth')
     torch.save({'net_dict': model.state_dict()}, export_path)

@@ -2,9 +2,8 @@
 # Created By  : Sayak Mukherjee
 # Created Date: 09-May-2023
 #
-# Adapted from:
 # ---------------------------------------------------------------------------
-#
+# Implementation of LeNet based classifier
 # ---------------------------------------------------------------------------
 
 import torch
@@ -20,9 +19,11 @@ class LeNet(BaseNet):
 
         self.config = config
 
+        self.rep_dim = 2304
+
         self.pool = nn.MaxPool2d(2, 2)
 
-        self.conv1 = nn.Conv2d(config.dataset.channels, 32, 5, padding=2)
+        self.conv1 = nn.Conv2d(3, 32, 5, padding=2)
         self.bn2d1 = nn.BatchNorm2d(32, eps=1e-04)
 
         self.conv2 = nn.Conv2d(32, 64, 5, padding=2)
@@ -34,10 +35,10 @@ class LeNet(BaseNet):
         self.conv4 = nn.Conv2d(128, 256, 5, padding=2)
         self.bn2d4 = nn.BatchNorm2d(256, eps=1e-04)
 
-        self.fc1 = nn.Linear(256 * 6 * 6, config.dataset.rep_dim)
-        self.bn1d = nn.BatchNorm1d(config.dataset.rep_dim, eps=1e-04)
+        self.fc1 = nn.Linear(256 * 6 * 6, self.rep_dim)
+        self.bn1d = nn.BatchNorm1d(self.rep_dim, eps=1e-04)
 
-        self.fc2 = nn.Linear(config.dataset.rep_dim, config.dataset.classes)
+        self.fc2 = nn.Linear(self.rep_dim, 10)
 
     def forward(self, x):
 

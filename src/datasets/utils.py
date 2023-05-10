@@ -6,7 +6,7 @@
 # 1. https://github.com/The-AI-Summer/byol-cifar10/blob/main/ai_summer_byol_in_cifar10.py
 # 2. https://docs.lightly.ai/self-supervised-learning/examples/byol.html
 # ---------------------------------------------------------------------------
-#
+# Dataset utility functions such as collate and custom transforms 
 # ---------------------------------------------------------------------------
 
 import torch

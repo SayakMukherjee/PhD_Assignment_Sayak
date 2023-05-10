@@ -1,0 +1,26 @@
+seed: 12345
+optimize:
+  optimizer: Adam
+  lr: 0.01
+  weight_decay: 1e-5
+train:
+  method: Finetune
+  model: ResNet
+  epochs: 20
+  batch_size: 256
+  loss: SimCLRLoss
+  use_reg: False
+  save_dir: ../models
+dataset:
+  name: STL10
+  channels: 3
+  is_corrupted: False
+  root: ../data
+  num_workers: 4
+  use_collate: True
+wandb:
+  log: True
+  dir: ../wandb
+  experiment_name: 'simclr_orig'
+  entity: 'sayak_delft'
+  project: 'phd_assign'

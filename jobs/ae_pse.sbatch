@@ -7,7 +7,6 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=8000
-#SBATCH --gres=gpu
 #SBATCH --mail-type=END
 
 /usr/bin/scontrol show job -d "$SLURM_JOB_ID"
@@ -24,4 +23,4 @@ export PYTHONUNBUFFERED=TRUE
 
 cd ../src
 
-srun python pretrain.py --exp_config ../scripts/ae_pse.yaml
+srun python train.py --exp_config ../scripts/ae_pse.yaml

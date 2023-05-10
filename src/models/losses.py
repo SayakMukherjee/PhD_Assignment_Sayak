@@ -5,7 +5,7 @@
 # References:
 # 1. solo-learn: https://github.com/vturrisi/solo-learn/tree/main/solo/losses
 # ---------------------------------------------------------------------------
-#
+# Custom loss functions used in training
 # ---------------------------------------------------------------------------
 
 import torch
@@ -35,7 +35,11 @@ class ContractiveLoss(torch.nn.Module):
 
         z.backward(torch.ones(z.size()).to(z.device), retain_graph=True)
 
-        return torch.sqrt(torch.sum(torch.pow(inputs.grad, 2)))
+        loss = torch.sqrt(torch.sum(torch.pow(inputs.grad, 2)))
+
+        inputs.grad.data.zero_() # remove the gradient data
+
+        return loss
 
 class BYOLLoss(torch.nn.Module):
 

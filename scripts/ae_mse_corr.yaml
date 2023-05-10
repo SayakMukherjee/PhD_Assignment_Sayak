@@ -2,10 +2,11 @@ seed: 12345
 optimize:
   optimizer: Adam
   lr: 0.001
+  weight_decay: 0
 train:
-  method: Autoencoder
-  model: LeNet_Autoencoder
-  epochs: 100
+  method: Finetune
+  model: LeNet
+  epochs: 10
   batch_size: 64
   loss: MSE
   use_reg: False
@@ -13,7 +14,7 @@ train:
 dataset:
   name: STL10
   channels: 3
-  is_corrupted: True
+  is_corrupted: False
   root: ../data
   num_workers: 4
   use_collate: False

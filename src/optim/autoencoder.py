@@ -3,7 +3,7 @@
 # Created Date: 09-May-2023
 #
 # ---------------------------------------------------------------------------
-#
+#  Pytorch Lightning trainer class for autoencoder
 # ---------------------------------------------------------------------------
 
 import torch
@@ -51,7 +51,8 @@ class Autoencoder(pl.LightningModule):
 
     def configure_optimizers(self):
         if self.config.optimize.optimizer == 'Adam':
-            optimizer = torch.optim.Adam(self.model.parameters(), lr=self.config.optimize.lr)
+            optimizer = torch.optim.Adam(self.model.parameters(), lr=self.config.optimize.lr,
+                                         weight_decay=self.config.optimize.weight_decay)
         else:
             raise NotImplementedError(f"Optimizer {self.config.optimizer}")
         return optimizer

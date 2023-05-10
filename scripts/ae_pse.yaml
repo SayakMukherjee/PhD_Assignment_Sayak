@@ -2,10 +2,11 @@ seed: 12345
 optimize:
   optimizer: Adam
   lr: 0.001
+  weight_decay: 0
 train:
-  method: Autoencoder
-  model: LeNet_Autoencoder
-  epochs: 100
+  method: Finetune
+  model: LeNet
+  epochs: 10
   batch_size: 64
   loss: PSE
   use_reg: False

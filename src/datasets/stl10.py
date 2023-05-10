@@ -3,7 +3,7 @@
 # Created Date: 09-May-2023
 #
 # ---------------------------------------------------------------------------
-#
+# Contains the implementation of STL-10 dataset
 # ---------------------------------------------------------------------------
 
 from datasets.basedataset import BaseDataset
@@ -41,35 +41,46 @@ class STL10(BaseDataset):
         self.config = config
 
         self.collate_fn = None
-        self.transform = None
+        self.traintest_transform = None
+        self.pretrain_transform = None
 
         if config.dataset.use_collate:
             print(f"Using collate function")
             self.collate_fn = SimCLRCollate(input_size=32,
                                             min_scale=0.2,
                                             gaussian_blur=0.0)
+            
+            self.traintest_transform = transforms.Compose([
+                transforms.ToTensor()
+                ])
 
             if config.dataset.is_corrupted:
-                self.transform = transforms.Compose([
+                self.pretrain_transform = transforms.Compose([
                     transforms.ToTensor(),
                     SaltPepperNoise()
                     ])
             else:
-                self.transform = transforms.Compose([
+                self.pretrain_transform = transforms.Compose([
                     transforms.ToTensor()
                     ])
         else:
             print(f"Using transform")
 
+            self.traintest_transform = transforms.Compose([
+                transforms.RandomHorizontalFlip(),
+                transforms.ToTensor(),
+                transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                    std=[0.229, 0.224, 0.225])])
+
             if config.dataset.is_corrupted:
-                self.transform = transforms.Compose([
+                self.pretrain_transform = transforms.Compose([
                     transforms.RandomHorizontalFlip(),
                     transforms.ToTensor(),
                     transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                         std=[0.229, 0.224, 0.225])])
 
             else:
-                self.transform = transforms.Compose([
+                self.pretrain_transform = transforms.Compose([
                     transforms.RandomHorizontalFlip(),
                     transforms.ToTensor(),
                     transforms.Normalize(mean=[0.485, 0.456, 0.406],
@@ -84,7 +95,7 @@ class STL10(BaseDataset):
 
         print(f"Loading STL10 unlabelled data")
 
-        if self.transform is None:
+        if self.pretrain_transform is None:
             self.pretrain_dataset = DatasetWrapper(root = Path(self.config.dataset.root),
                                                 split = 'unlabeled',
                                                 download = True)
@@ -93,7 +104,7 @@ class STL10(BaseDataset):
             self.pretrain_dataset = DatasetWrapper(root = Path(self.config.dataset.root),
                                                 split = 'unlabeled',
                                                 download = True,
-                                                transform = self.transform)
+                                                transform = self.pretrain_transform)
 
         if self.collate_fn is None:
             print('without collate')
@@ -112,13 +123,13 @@ class STL10(BaseDataset):
 
         print(f"Loading STL10 train data")
 
-        if self.transform is None:
+        if self.traintest_transform is None:
             self.train_dataset = DatasetWrapper(root = Path(self.config.dataset.root),
                                                 download = True)
         else:
             self.train_dataset = DatasetWrapper(root = Path(self.config.dataset.root),
                                                 download = True,
-                                                transform = self.transform)
+                                                transform = self.traintest_transform)
 
         if self.collate_fn is None:
             self.train_loader = DataLoader(self.train_dataset,
@@ -136,7 +147,7 @@ class STL10(BaseDataset):
 
         print(f"Loading STL10 test data")
 
-        if self.transform is None:
+        if self.traintest_transform is None:
             self.test_dataset = DatasetWrapper(root = Path(self.config.dataset.root),
                                                split = 'test',
                                                download=True)
@@ -144,7 +155,7 @@ class STL10(BaseDataset):
             self.test_dataset = DatasetWrapper(root = Path(self.config.dataset.root),
                                                split = 'test',
                                                download=True,
-                                               transform=self.transform)
+                                               transform=self.traintest_transform)
 
         if self.collate_fn is None:
             self.test_loader = DataLoader(self.test_dataset,

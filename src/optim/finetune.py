@@ -3,7 +3,7 @@
 # Created Date: 09-May-2023
 #
 # ---------------------------------------------------------------------------
-#
+# Pytorch Lightning trainer class for fine-tuning
 # ---------------------------------------------------------------------------
 
 import torch
@@ -22,8 +22,8 @@ class Finetuner(pl.LightningModule):
         self.loss_fn = nn.CrossEntropyLoss()
 
         self.train_loss = torchmetrics.MeanMetric()
-        self.train_acc = torchmetrics.Accuracy()
-        self.test_acc = torchmetrics.Accuracy()
+        self.train_acc = torchmetrics.Accuracy(task="multiclass", num_classes=10)
+        self.test_acc = torchmetrics.Accuracy(task="multiclass", num_classes=10)
 
     def configure_optimizers(self):
         if self.config.optimize.optimizer == 'Adam':
@@ -69,4 +69,6 @@ class Finetuner(pl.LightningModule):
     def on_train_epoch_end(self):
         # Log the epoch-level training accuracy
         self.log('train/loss', self.train_loss.compute())
+        self.log('train/acc', self.train_acc.compute())
         self.train_loss.reset()
+        self.train_acc.reset()

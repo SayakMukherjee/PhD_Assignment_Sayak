@@ -2,10 +2,11 @@ seed: 12345
 optimize:
   optimizer: Adam
   lr: 0.001
+  weight_decay: 1e-5
 train:
-  method: Autoencoder
-  model: LeNet_Autoencoder
-  epochs: 100
+  method: Finetune
+  model: LeNet
+  epochs: 10
   batch_size: 64
   loss: MSE
   use_reg: True
@@ -13,13 +14,13 @@ train:
 dataset:
   name: STL10
   channels: 3
-  is_corrupted: True
+  is_corrupted: False
   root: ../data
   num_workers: 4
   use_collate: False
 wandb:
   log: True
   dir: ../wandb
-  experiment_name: 'ae_cae_corr'
+  experiment_name: 'ae_cae_corr3'
   entity: 'sayak_delft'
   project: 'phd_assign'

@@ -164,3 +164,7 @@ data
 wandb
 .vscode
 cache
+trained_models
+pretrained_models
+backup
+jobs
